@@ -1,28 +1,40 @@
-# Drone-detection-dataset
-Dataset containing IR, visible and audio data that can be used to train and evaluate drone detection sensors and systems.
+# Drone-detection-dataset (YOLO格式转换版)
 
-Video labels: Airplane, Bird, Drone and Helicopter.
-Audio labels: Drone, Helicopter and Background.
+这是[原始Drone-detection-dataset](https://github.com/franziska-sn/Drone-detection-dataset)的改进版本，添加了Python支持，可将数据集转换为YOLO模型训练格式。
 
-The dataset contains 90 audio clips and 650 videos (365 IR and 285 visible). If all images are extracted from all the videos the dataset has a total of 203328 annotated images.
+## 数据集概述
 
-Free to download, use and edit.
-Descriptions of the videos are found in "Video_dataset_description.xlsx".
-The videos can be used as they are, or together with the respective label-files.
-The annotations are in .mat-format and have been done using the Matlab video labeler.
-Some instructions and examples are found in "Create_a_dataset_from_videos_and_labels.m"
+数据集包含红外(IR)、可见光和音频数据，可用于训练和评估无人机检测传感器和系统。
 
-Please cite:  
-"Svanström F. (2020). Drone Detection and Classification using Machine Learning and Sensor Fusion".
-[Link to thesis](https://hh.diva-portal.org/smash/get/diva2:1434532/FULLTEXT02.pdf)  
-or  
-"Svanström F, Englund C and Alonso-Fernandez F. (2020). Real-Time Drone Detection and Tracking With Visible, Thermal and Acoustic Sensors".
-[Link to ICPR2020-paper](https://arxiv.org/pdf/2007.07396.pdf)  
-or  
-"Svanström F, Alonso-Fernandez F and Englund C. (2021). A Dataset for Multi-Sensor Drone Detection".
-[Link to Data in Brief](https://www.sciencedirect.com/science/article/pii/S2352340921007976#!)
+**视频标签**: 飞机(Airplane)、鸟(Bird)、无人机(Drone)和直升机(Helicopter)
+**音频标签**: 无人机(Drone)、直升机(Helicopter)和背景(Background)
 
-[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.5500576.svg)](http://dx.doi.org/10.5281/zenodo.5500576)
+数据集包含90个音频片段和650个视频(365个红外和285个可见光)。如果从所有视频中提取所有图像，数据集总共有203328张带标注的图像。
 
-Contact:  
-DroneDetectionThesis@gmail.com
+## 改进内容
+
+本仓库对原始数据集做了以下改进：
+
+1. **添加Python代码**：实现了数据集向YOLO格式的转换
+2. **修改MATLAB代码**：优化了原始处理流程，便于与Python代码配合使用
+3. **完整处理流程**：通过依次运行MATLAB和Python脚本，可将原始数据集转换为YOLO训练所需格式
+
+## 使用说明
+
+### 1. 使用MATLAB处理原始数据
+
+首先运行修改后的MATLAB脚本提取视频帧和标注：
+
+```matlab
+run Create_a_dataset_from_videos_and_labels.m
+```
+### 2. 使用Python脚本转换为YOLO格式
+然后运行Python脚本将MATLAB生成的数据转换为YOLO格式：
+```python
+python convert_to_yolo_format.py
+```
+### 生成的YOLO数据集结构
+转换完成后，将生成YOLO格式的数据集，包括：
+* 图像文件
+* 对应的标签文件(.txt)
+* 训练/验证/测试集划分
