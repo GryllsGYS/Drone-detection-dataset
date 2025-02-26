@@ -1,15 +1,14 @@
 # Drone-detection-dataset (YOLO格式转换版)
 
-这是[原始Drone-detection-dataset](https://github.com/franziska-sn/Drone-detection-dataset)的改进版本，添加了Python支持，可将数据集转换为YOLO模型训练格式。
+这是[原始Drone-detection-dataset](https://github.com/franziska-sn/Drone-detection-dataset)的**视频标签**改进版本，添加了Python支持，可将数据集转换为YOLO模型训练格式。
 
 ## 数据集概述
 
-数据集包含红外(IR)、可见光和音频数据，可用于训练和评估无人机检测传感器和系统。
+数据集包含红外(IR)和可见光，可用于训练和评估无人机检测传感器和系统。
 
 **视频标签**: 飞机(Airplane)、鸟(Bird)、无人机(Drone)和直升机(Helicopter)
-**音频标签**: 无人机(Drone)、直升机(Helicopter)和背景(Background)
 
-数据集包含90个音频片段和650个视频(365个红外和285个可见光)。如果从所有视频中提取所有图像，数据集总共有203328张带标注的图像。
+数据集包含650个视频(365个红外和285个可见光)。如果从所有视频中提取所有图像，数据集总共有203328张带标注的图像。
 
 ## 改进内容
 
