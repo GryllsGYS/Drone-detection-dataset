@@ -1,67 +1,90 @@
-%% Introduction
-% This is an example showing how to create a dataset for training from 
-% videos and label-files.
+%% 简介
+% 本程序用于从视频和标签文件创建用于训练的数据集
 
 
-%% Preparations:
-% 1. Create a folder called Data under C:
-% 2. Copy the folders Video_IR and Video_V to the folder C:\Data
-% 3. Add the folder C:\Data to the Matlab path using "Set Path"
-% This has to be done so that the DataSource-value of the groundTruth-
-% object in the label-file points at the correct video file.
 
 
-%% Load ground truth from four label-files
-gt1=load('IR_AIRPLANE_001_LABELS.mat');
-gt2=load('IR_BIRD_001_LABELS.mat');
-gt3=load('IR_DRONE_001_LABELS.mat');
-gt4=load('IR_HELICOPTER_001_LABELS.mat');
+%% 加载所有标签文件
+% 初始化空的groundTruth数组
+gTruth = [];
+
+% 飞机数据（001-059）
+for i = 1:59
+    try
+        % 生成文件名
+        filename = sprintf('V_AIRPLANE_%03d_LABELS.mat', i);
+        % 加载文件
+        gt = load(filename);
+        % 将groundTruth添加到数组
+        gTruth = [gTruth; gt.gTruth];
+    catch
+        warning('无法加载文件: %s', filename);
+    end
+end
+
+% 鸟类数据（001-051）
+for i = 1:51
+    try
+        filename = sprintf('V_BIRD_%03d_LABELS.mat', i);
+        gt = load(filename);
+        gTruth = [gTruth; gt.gTruth];
+    catch
+        warning('无法加载文件: %s', filename);
+    end
+end
+
+% 无人机数据（001-114）
+for i = 1:114
+    try
+        filename = sprintf('V_DRONE_%03d_LABELS.mat', i);
+        gt = load(filename);
+        gTruth = [gTruth; gt.gTruth];
+    catch
+        warning('无法加载文件: %s', filename);
+    end
+end
+
+% 直升机数据（001-061）
+for i = 1:61
+    try
+        filename = sprintf('V_HELICOPTER_%03d_LABELS.mat', i);
+        gt = load(filename);
+        gTruth = [gTruth; gt.gTruth];
+    catch
+        warning('无法加载文件: %s', filename);
+    end
+end
+
+% 选择所需的标签
+gTruth = selectLabels(gTruth, {'AIRPLANE','BIRD','DRONE','HELICOPTER'});
 
 
-%% Put the ground truth together
-gTruth = [gt1.gTruth;gt2.gTruth;gt3.gTruth;gt4.gTruth];
-gTruth = selectLabels(gTruth,{'AIRPLANE','BIRD','DRONE','HELICOPTER'});
-
-
-%% Create a folder for all the images that will be extracted from the videos
-if isfolder(fullfile('Training_data_IR'))
-    cd Training_data_IR
+%% 创建用于存储从视频提取图像的文件夹
+if isfolder(fullfile('Training_data_V'))
+    cd Training_data_V
 else
-    mkdir Training_data_IR
+    mkdir Training_data_V
 end 
-addpath('Training_data_IR');
+addpath('Training_data_V');
 
 
-%% Produce the training dataset
+%% 生成训练数据集
+% 采样因子为1表示从视频中提取所有帧
 trainingData = objectDetectorTrainingData(gTruth,...
-    'SamplingFactor', [1,1,1,1], ...
-    'WriteLocation','Training_data_IR');
-% Using a sampling factor of 1 means that all images from the video will be
-% included in the dataset.
-% If more or less than four label-files is to be included, the length of the
-% SamplingFactor-array must also be changed so that the number of files and
-% the length are the same.
+    'SamplingFactor', 1, ...  
+    'WriteLocation','Training_data_V');
 
 
-%% Save the training dataset
-save('Training_data_IR.mat',"trainingData")
+%% 保存训练数据集
+save('Training_data_V.mat', "trainingData")
 
 
-%% Results
-% You should now have the following:
-% 1. A folder contaning the images extracted from the videos
-% 2. A .mat-file with as many rows as images and five columns, one with
-% the paths to the images and four with bounding boxes for the respective classes
+%% 结果说明
+% 现在应该得到以下内容:
+% 1. 包含从视频提取的图像的文件夹(Training_data_V)
+% 2. 一个.mat文件，行数与图像数量相同，包含5列:
+%    - 第1列：图像路径
+%    - 第2-5列：四个类别(飞机、鸟类、无人机、直升机)的边界框信息
 
-
-%% Example of how to use the results:
-% To load the dataset, use the following commands:
-% addpath('Training_data_IR');
-% data = load('Training_data_IR.mat');
-% trainingData = data.trainingData;
-
-% To train a detector, use the following commands:
-% [detector,info] = trainYOLOv2ObjectDetector(trainingData,lgraph,options);
-% Note that lgraph and options has to be defined first.
 
 
