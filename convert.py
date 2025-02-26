@@ -102,11 +102,11 @@ def process_dataset(image_paths, training_data, classes, dataset_type, dataset_d
         shutil.copy2(img_path, dst_img_path)
 
         # 为此图像创建YOLO格式标签
-        create_yolo_label(img_path, img_name, training_data,
+        create_yolo_label(img_path, img_name, img_filename, training_data,
                           classes, dataset_type, dataset_dir)
 
 
-def create_yolo_label(img_path, img_name, training_data, classes, dataset_type, dataset_dir):
+def create_yolo_label(img_path, img_name, img_filename, training_data, classes, dataset_type, dataset_dir):
     """为单个图像创建YOLO格式的标签文件"""
     # 读取图像获取尺寸
     img = cv2.imread(img_path)
