@@ -9,7 +9,7 @@
 gTruth = [];
 
 % 飞机数据（001-059）
-for i = 1:59
+for i = 1:2
     try
         % 生成文件名
         filename = sprintf('V_AIRPLANE_%03d_LABELS.mat', i);
@@ -28,7 +28,7 @@ disp('飞机数据加载完成，已释放内存');
 java.lang.System.gc();
 
 % 鸟类数据（001-051）
-for i = 1:51
+for i = 1:2
     try
         filename = sprintf('V_BIRD_%03d_LABELS.mat', i);
         gt = load(filename);
@@ -44,7 +44,7 @@ disp('鸟类数据加载完成，已释放内存');
 java.lang.System.gc();
 
 % 无人机数据（001-114）
-for i = 1:114
+for i = 1:2
     try
         filename = sprintf('V_DRONE_%03d_LABELS.mat', i);
         gt = load(filename);
@@ -60,7 +60,7 @@ disp('无人机数据加载完成，已释放内存');
 java.lang.System.gc();
 
 % 直升机数据（001-061）
-for i = 1:61
+for i = 1:2
     try
         filename = sprintf('V_HELICOPTER_%03d_LABELS.mat', i);
         gt = load(filename);
@@ -101,7 +101,7 @@ end
 
 try
     % 每个视频采样一个恒定比例的帧（这里设置为1，采样所有帧）
-    samplingFactor = 1;
+    samplingFactor = ones(1, 8) * 1;
 
     % 创建训练数据
     trainingData = objectDetectorTrainingData(gTruth, ...
