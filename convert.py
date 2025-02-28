@@ -168,7 +168,6 @@ names: {list(classes.keys())}  # 类别名称
         f.write(yaml_content)
 
     print(f"转换完成! 数据集已保存到 {yolo_dir} 目录")
-    print(f"共处理 {len(train_list)} 张训练图像和 {len(val_list)} 张验证图像")
 
 
 if __name__ == "__main__":

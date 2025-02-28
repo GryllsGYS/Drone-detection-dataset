@@ -22,18 +22,23 @@
 
 ### 1. 使用MATLAB处理原始数据
 
-首先运行修改后的MATLAB脚本提取视频帧和标注：
+在main_process.m中修改采样系数(默认为采样所有帧)
+运行main_process.m提取视频帧和标注：
 
 ```matlab
-run Create_a_dataset_from_videos_and_labels.m
+run main_process.m
 ```
 ### 2. 使用Python脚本转换为YOLO格式
 然后运行Python脚本将MATLAB生成的数据转换为YOLO格式：
 ```python
-python convert_to_yolo_format.py
+python convert.py
 ```
 ### 生成的YOLO数据集结构
 转换完成后，将生成YOLO格式的数据集，包括：
 * 图像文件
 * 对应的标签文件(.txt)
-* 训练/验证/测试集划分
+* 训练/验证集划分
+
+---
+
+**PS**：在连续采样到第225个视频时会报错，故分成了两个步骤来采样所有的视频
